@@ -23,7 +23,7 @@ func main() {
 	}
 
 	info := []string{"NAD File Drop Service"}
-	service, err := mdns.NewMDNSService(host, "_nad._tcp", "", host, 9000, nil, info)
+	service, err := mdns.NewMDNSService(host, "_nad._tcp", "", "", 9000, nil, info)
 	if err != nil {
 		panic(err)
 	}
@@ -39,12 +39,12 @@ func main() {
 
 				found := false
 				for i := 0; i < len(clients.endpoints); i++ {
-					if entry.Name == clients.endpoints.Name {
+					if entry.Name == clients.endpoints[i].Name {
 						found = true
 					}
 				}
 				if !found {
-					clients.endpoints = append(clients.endpoints, entry)
+					clients.endpoints = append(clients.endpoints, *entry)
 					fmt.Println("entry.Name =", entry.Name)
 				}
 
@@ -54,7 +54,7 @@ func main() {
 		}
 	}()
 
-	mdns.Lookup("_nad._tcp", mdnsEntries)
+	//mdns.Lookup("_nad._tcp", mdnsEntries)
 
 	for {
 	}
